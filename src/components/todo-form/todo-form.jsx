@@ -8,7 +8,6 @@ export default function TodoForm({ addTask }) {
   const handleChange = (e) => {
     setUserInput(e.currentTarget.value);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,7 +31,7 @@ export default function TodoForm({ addTask }) {
         type="text"
         onChange={handleChange}
         value={userInput}
-        placeholder="write something !"
+        placeholder="write something..."
         onKeyDown={handleKeyPress}
       />
       <button className="btn__form" disabled={userInput === "" ? true : false}>

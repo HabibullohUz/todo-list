@@ -5,11 +5,13 @@ import uniqid from 'uniqid';
 import logo from './assets/rocket.svg'
 import './assets/base.scss'
 import board from './assets/board-icon.svg'
+import 'remixicon/fonts/remixicon.css'
 
 function App() {
 
   const [todos, setTodos] = useState([])
   const [count, setCount] = useState(0)
+  const [quantity, setQuantity] = useState(0);
 
   const addTask = (userInput) => {
     const newTask = {
@@ -18,6 +20,7 @@ function App() {
       complate: false
     }
     setTodos([...todos, newTask])
+    console.log(todos);
   }
 
   const removeTask = (id) => {
@@ -29,23 +32,21 @@ function App() {
     })
   }
 
-  const editTask = (id) => {
-  }
-
-  const todoComplate = (id) => {
-    setTodos([...todos.map((todo) => todo.id === id ? { ...todo, complate: !todo.complate } : { ...todo }
-    ),
-    ]);
-    todos.forEach((todo) => {
+  const editTodo = (id, newText) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
-        if (!todo.complate) {
-          setCount(count + 1);
-        }
-        else {
-          setCount(count - 1);
-        }
+        return { ...todo, text: newText };
       }
-    })
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+  const todoComplate = (id) => {
+    setTodos([...todos.map((todo) => todo.id === id ? { ...todo, complate: !todo.complate } : { ...todo }).sort((a, b) => a.complate - b.complate)
+    ])
+    todos.map((todo) => (!todo.complate && todo.id === id) && setQuantity(quantity + 1));
+    todos.map((todo) => (todo.complate && todo.id === id) && setQuantity(quantity - 1));
+    console.log(todos)
   };
 
   return (
@@ -62,7 +63,7 @@ function App() {
       <div className="todo__wrapper">
         <div className="todo__counter">
           <div className='todo__created'>Created <span className='todo__counter-num'>{todos.length}</span></div>
-          <div className='todo__done'>Done <span className='todo__counter-num'>{count}</span></div>
+          <div className='todo__done'>Done <span className='todo__counter-num'>{quantity}</span></div>
         </div>
 
         {todos.length ?
@@ -73,6 +74,7 @@ function App() {
                 key={todo.id}
                 removeTask={removeTask}
                 todoComplate={todoComplate}
+                editTodo={editTodo}
               />
             )
           })

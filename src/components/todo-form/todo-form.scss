@@ -21,6 +21,10 @@
     background-color: #262626;
   }
 
+  .input__form::placeholder {
+    font-style: italic;
+  }
+
   .btn__form {
     padding: 19px;
     font-family: "Inter";
